@@ -1,0 +1,14 @@
+version: '2'  
+services:  
+    db:
+        build: ./WhitechDB
+    api:
+        build: ./WhitechApi
+        ports:
+            - "5000:5000"
+        depends_on:
+            - db
+        environment:
+            - DATABASE_HOST=db
+
+
