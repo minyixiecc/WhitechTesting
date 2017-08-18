@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test-server": "mocha schema/**/*.serverSpec.js"
+    "test-server": "mocha schema/**/*.serverSpec.js",
+    "build": "babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "start": "babel-node --presets es2015 server.js"
   },
   "author": "Minyi",
   "license": "ISC",
@@ -16,6 +18,7 @@
     "express-graphql": "^0.6.1",
     "graphql": "^0.8.2",
     "mocha": "^3.5.0",
-    "mysql": "^2.14.1"
+    "mysql2": "^1.4.1",
+    "sequelize": "^4.5.0"
   }
 }

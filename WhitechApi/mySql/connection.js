@@ -1,32 +1,21 @@
-var mysql = require('mysql');
+const config = require('../config');
+const Sequelize = require('sequelize');
 
-// mySql Database
-var con = mysql.createConnection({
-  host: "172.17.0.1",
-  user: "root",
-  password: "123",
-  port: 3306
+const sequelize = new Sequelize(config.mySql.database, config.mySql.username, config.mySql.password, {
+	host: config.mySql.host,
+  	dialect: 'mysql',
 });
 
-// Initial database and table
-con.connect(function(err) {
-  if (err) throw err;
-  con.query("CREATE DATABASE IF NOT EXISTS testingDB", function (err, result) {
-    if (err) throw err;
-    console.log("Database created");
-
-    con.changeUser({database : "testingDB"}, function(err) {
-	    if (err) {
-	      console.log('error in changing database', err);
-	      return;
-	    }
-	    var sql = "CREATE TABLE IF NOT EXISTS products (id BIGINT, price FLOAT, name VARCHAR(255), description TEXT, imageUrl TEXT)";
-	    con.query(sql, function (err, result) {
-	      if (err) throw err;
-	      console.log("Table created\n\n");
-	    });
-	});
-  });
+const Products = sequelize.define('products', {
+	price: 		Sequelize.FLOAT,
+    name: 		Sequelize.STRING,
+    description:Sequelize.STRING,
+    imageUrl: 	Sequelize.STRING
 });
 
-module.exports = con;
+Products.sync({force: true}).then(function () {
+  // Table created
+  return true;
+});
+
+module.exports = { Products };
