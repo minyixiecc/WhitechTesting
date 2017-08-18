@@ -13,7 +13,7 @@ const Products = sequelize.define('products', {
     imageUrl: 	Sequelize.STRING
 });
 
-Products.sync({force: true}).then(function () {
+Products.sync({force: false}).then(function () {
   // Table created
   return true;
 });
